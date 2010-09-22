@@ -20,9 +20,6 @@ When header support is enabled, is the header considered row 0?
 
 ===============
 
-- It should be possible to set column names, and then refer to the
- columns by name anywhere that a column needs to be identified.
-
 - It should be possible to lookup a cell's contents by row (zero based
  index) and column (index or column name).
 
@@ -32,10 +29,6 @@ When header support is enabled, is the header considered row 0?
       (Similar to Enumerable#map)
 
 - It should be possible to do all of the following column manipulations:
-    * Retrieve an array (or Column object) consisting of
-      all the contents in that column
-        (need column name support)
-    * Rename a column, if header support is enabled
     * Append a column to the right side of the table
         (need column name support)
     * Insert a column at any position in the table

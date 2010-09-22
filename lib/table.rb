@@ -7,7 +7,7 @@ class Table
     @table = array_of_rows.dup
     
     @header_support = header_support
-    @header_row = @table.shift.map(&:to_sym) if header_support
+    @header_row = @table.shift.map(&:to_s) if header_support
   end
   
   attr_accessor :header_row
@@ -27,6 +27,16 @@ class Table
   
   def columns
     @table.transpose
+  end
+  
+  def rename_column(index_or_name, new_name)
+    return unless @header_support
+    
+    index = index_or_name
+    if String === index or Symbol === index
+      index = @header_row.index(index.to_s) 
+    end
+    @header_row[index] = new_name
   end
   
   def columns_count
@@ -64,7 +74,7 @@ class Table
     
     case row_index_or_column_name
     when String, Symbol
-      index = @header_row.index(row_index_or_column_name.to_sym)
+      index = @header_row.index(row_index_or_column_name.to_s)
       columns[index]
     else
       rows[row_index_or_column_name]

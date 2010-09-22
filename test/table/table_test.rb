@@ -46,7 +46,7 @@ class TableTest < Test::Unit::TestCase
       end
       
       test "treats the first row as column names" do
-        assert_equal array_of_rows[0].map(&:to_sym), @table.header_row
+        assert_equal array_of_rows[0], @table.header_row
       end
       
       test "has no side effects on params" do
@@ -125,7 +125,21 @@ class TableTest < Test::Unit::TestCase
     
     test "retrieve column by name" do
       assert_equal array_of_columns_data[1], @table["age"]
-      assert_equal array_of_columns_data[1], @table[:age]
+    end
+    
+    describe "rename column" do
+      
+      test "using name" do
+        old_name = @table.header_row[0]
+        @table.rename_column(old_name, "First Name")
+        assert_equal "First Name", @table.header_row[0]
+      end
+      
+      test "using index" do
+        index = 0
+        @table.rename_column(index, "First Name")
+        assert_equal "First Name", @table.header_row[index]
+      end
     end
     
     describe "append" do
