@@ -1,0 +1,14 @@
+When creating the table or adding rows:
+  Should we verify that all rows have the same number of columns?
+  And what would be done if there are less, fill with nil?
+  And what if there are more, truncate?
+
+When adding columns:
+  Should we check that the column has the correct number of rows?
+  And what would be done if there are less, fill with nil?
+  And what if there are more, truncate?
+
+Do the transformations edit the table in place or return a new one?
+  Or should there be both options?
+
+When header support is enabled, is the header considered row 0?
