@@ -127,7 +127,7 @@ class TableTest < Test::Unit::TestCase
       assert_equal array_of_columns_data[1], @table["age"]
     end
     
-    describe "rename column" do
+    describe "rename" do
       
       test "using name" do
         old_name = @table.header_row[0]
@@ -176,10 +176,19 @@ class TableTest < Test::Unit::TestCase
       end
     end
 
-    test "delete column at position" do
-      @table.delete_column_at 1
-      assert_not_equal array_of_columns[1], @table.columns[1]
-      assert_not_equal array_of_columns.count, @table.columns_count
+    describe "delete" do
+      
+      test "with index" do
+        @table.delete_column_at 1
+        assert_not_equal array_of_columns[1], @table.columns[1]
+        assert_not_equal array_of_columns.count, @table.columns_count
+      end
+      
+      test "with name" do
+        @table.delete_column_at "age"
+        assert_not_equal array_of_columns[1], @table.columns[1]
+        assert_not_equal array_of_columns.count, @table.columns_count
+      end
     end
   end
 

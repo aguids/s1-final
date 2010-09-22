@@ -32,10 +32,7 @@ class Table
   def rename_column(index_or_name, new_name)
     return unless @header_support
     
-    index = index_or_name
-    if String === index or Symbol === index
-      index = @header_row.index(index.to_s) 
-    end
+    index = column_index(index_or_name)
     @header_row[index] = new_name
   end
   
@@ -61,7 +58,9 @@ class Table
     update_columns(new_columns)
   end
   
-  def delete_column_at(index)
+  def delete_column_at(index_or_name)
+    index = column_index(index_or_name)
+    
     new_columns = columns
     new_columns.delete_at index
     update_columns(new_columns)
@@ -73,9 +72,8 @@ class Table
     return rows[row_index_or_column_name] unless @header_support
     
     case row_index_or_column_name
-    when String, Symbol
-      index = @header_row.index(row_index_or_column_name.to_s)
-      columns[index]
+    when String
+      columns[column_index(row_index_or_column_name)]
     else
       rows[row_index_or_column_name]
     end
@@ -88,5 +86,15 @@ class Table
 private
   def update_columns(new_columns)
     @table = new_columns.transpose
+  end
+  
+  def column_index(index_or_name)
+    return index_or_name unless @header_support
+    
+    if String === index_or_name
+      @header_row.index(index_or_name) 
+    else
+      index_or_name
+    end
   end
 end
