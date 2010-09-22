@@ -57,6 +57,12 @@ class TableTest < Test::Unit::TestCase
     end
   end
   
+  test "add header support afterwards" do
+    table = Table.new array_of_rows_data
+    table.header_row = array_of_rows[0]
+    assert_equal array_of_rows[0], table.header_row
+  end
+  
   describe "row manipulation" do
     setup do
       @table = Table.new array_of_rows

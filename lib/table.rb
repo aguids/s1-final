@@ -10,7 +10,7 @@ class Table
     @header_row = @table.shift.map(&:to_sym) if header_support
   end
   
-  attr_reader :header_row
+  attr_accessor :header_row
   
   def rows
     @table
