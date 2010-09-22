@@ -7,10 +7,10 @@ class Table
     @table = array_of_rows.dup
     
     @header_support = header_support
-    @header_row = @table.shift.map(&:to_s) if header_support
+    @column_names = @table.shift.map(&:to_s) if header_support
   end
   
-  attr_accessor :header_row
+  attr_accessor :column_names
   
   def rows
     @table
@@ -33,7 +33,7 @@ class Table
     return unless @header_support
     
     index = column_index(index_or_name)
-    @header_row[index] = new_name
+    @column_names[index] = new_name
   end
   
   def columns_count
@@ -44,16 +44,18 @@ class Table
     new_columns = columns
     new_columns << column.dup
     
-    @header_row << new_columns.last.shift if @header_support
+    @column_names << new_columns.last.shift if @header_support
       
     update_columns(new_columns)
   end
   
-  def insert_column_at(index, column)
+  def insert_column_at(index_or_name, column)
+    index = column_index(index_or_name)
+    
     new_columns = columns
     new_columns.insert index, column.dup
     
-    @header_row.insert(index, new_columns[index].shift) if @header_support
+    @column_names.insert(index, new_columns[index].shift) if @header_support
     
     update_columns(new_columns)
   end
@@ -65,7 +67,7 @@ class Table
     new_columns.delete_at index
     update_columns(new_columns)
     
-    @header_row.delete_at index if @header_support
+    @column_names.delete_at index if @header_support
   end
   
   def [](row_index_or_column_name)
@@ -92,7 +94,7 @@ private
     return index_or_name unless @header_support
     
     if String === index_or_name
-      @header_row.index(index_or_name) 
+      @column_names.index(index_or_name) 
     else
       index_or_name
     end

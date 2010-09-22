@@ -29,10 +29,6 @@ When header support is enabled, is the header considered row 0?
       (Similar to Enumerable#map)
 
 - It should be possible to do all of the following column manipulations:
-    * Append a column to the right side of the table
-        (need column name support)
-    * Insert a column at any position in the table
-        (need column name support)
     * Run a transformation on a column which changes its content
       based on the return value of a block.
 

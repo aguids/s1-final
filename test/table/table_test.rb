@@ -46,7 +46,7 @@ class TableTest < Test::Unit::TestCase
       end
       
       test "treats the first row as column names" do
-        assert_equal array_of_rows[0], @table.header_row
+        assert_equal array_of_rows[0], @table.column_names
       end
       
       test "has no side effects on params" do
@@ -59,8 +59,8 @@ class TableTest < Test::Unit::TestCase
   
   test "add header support afterwards" do
     table = Table.new array_of_rows_data
-    table.header_row = array_of_rows[0]
-    assert_equal array_of_rows[0], table.header_row
+    table.column_names = array_of_rows[0]
+    assert_equal array_of_rows[0], table.column_names
   end
   
   describe "row manipulation" do
@@ -130,15 +130,15 @@ class TableTest < Test::Unit::TestCase
     describe "rename" do
       
       test "using name" do
-        old_name = @table.header_row[0]
+        old_name = @table.column_names[0]
         @table.rename_column(old_name, "First Name")
-        assert_equal "First Name", @table.header_row[0]
+        assert_equal "First Name", @table.column_names[0]
       end
       
       test "using index" do
         index = 0
         @table.rename_column(index, "First Name")
-        assert_equal "First Name", @table.header_row[index]
+        assert_equal "First Name", @table.column_names[index]
       end
     end
     
@@ -164,6 +164,12 @@ class TableTest < Test::Unit::TestCase
       test "insert column at position" do
         column = ["sport", "golf", nil, "soccer"]
         @table.insert_column_at 1, column
+        assert_equal column[1..-1], @table.columns[1]
+      end
+      
+      test "using column name as index" do
+        column = ["sport", "golf", nil, "soccer"]
+        @table.insert_column_at "age", column
         assert_equal column[1..-1], @table.columns[1]
       end
       
