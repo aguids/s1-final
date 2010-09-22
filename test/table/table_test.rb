@@ -48,6 +48,12 @@ class TableTest < Test::Unit::TestCase
       test "treats the first row as column names" do
         assert_equal array_of_rows[0].map(&:to_sym), @table.header_row
       end
+      
+      test "has no side effects on params" do
+        data = array_of_rows
+        new_table = Table.new data, true
+        assert_equal array_of_rows, data
+      end
     end
   end
   
@@ -60,17 +66,39 @@ class TableTest < Test::Unit::TestCase
       assert_equal array_of_rows[1], @table.rows[1]
       assert_equal array_of_rows[1], @table[1]
     end
+    
+    describe "append" do
       
-    test "append row to the end of the table" do
-      row = ["stuart", 35, nil]
-      @table << row
-      assert_equal row, @table[@table.rows_count - 1]
+      test "append row to the end of the table" do
+        row = ["stuart", 35, nil]
+        @table << row
+        assert_equal row, @table[@table.rows_count - 1]
+      end  
+    
+      test "has no side effects on params" do
+        row = ["stuart", 35, nil]
+        @table << row
+        @table[@table.rows_count - 1].shift
+        
+        assert_not_equal row, @table[@table.rows_count - 1]
+      end
     end
     
-    test "insert row at position" do
-      row = ["stuart", 35, nil]
-      @table.insert_row_at 1, row
-      assert_equal row, @table[1]
+    describe "insert" do
+      
+      test "insert row at position" do
+        row = ["stuart", 35, nil]
+        @table.insert_row_at 1, row
+        assert_equal row, @table[1]
+      end
+
+      test "has no side effects on params" do
+        row = ["stuart", 35, nil]
+        @table.insert_row_at 1, row
+        @table[1].shift
+        
+        assert_not_equal row, @table[1]
+      end
     end
     
     test "delete row" do
@@ -94,16 +122,38 @@ class TableTest < Test::Unit::TestCase
       assert_equal array_of_columns_data[1], @table[:age]
     end
     
-    test "append column to the right of the table" do
-      column = ["sport", "golf", nil, "soccer"]
-      @table.append_column column
-      assert_equal column[1..-1], @table.columns[@table.columns_count - 1]
+    describe "append" do
+      
+      test "append column to the right of the table" do
+        column = ["sport", "golf", nil, "soccer"]
+        @table.append_column column
+        assert_equal column[1..-1], @table.columns[@table.columns_count - 1]
+      end
+      
+      test "has no side effects on params" do
+        column = ["sport", "golf", nil, "soccer"]
+        @table.append_column column
+        @table[0][@table.columns_count - 1] = nil
+        
+        assert_not_equal column[1..-1], @table.columns[@table.columns_count - 1]
+      end
     end
 
-    test "insert column at position" do
-      column = ["sport", "golf", nil, "soccer"]
-      @table.insert_column_at 1, column
-      assert_equal column[1..-1], @table.columns[1]
+    describe "insert" do
+      
+      test "insert column at position" do
+        column = ["sport", "golf", nil, "soccer"]
+        @table.insert_column_at 1, column
+        assert_equal column[1..-1], @table.columns[1]
+      end
+      
+      test "has no side effects on params" do
+        column = ["sport", "golf", nil, "soccer"]
+        @table.insert_column_at 1, column
+        @table[0][1] = nil
+        
+        assert_not_equal column[1..-1], @table.columns[1]
+      end
     end
 
     test "delete column at position" do
@@ -112,5 +162,5 @@ class TableTest < Test::Unit::TestCase
       assert_not_equal array_of_columns.count, @table.columns_count
     end
   end
-  
-end
+
+end      

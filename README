@@ -1,3 +1,5 @@
+We should be duplicating, cloning the provided arrays, shouldn't we?
+
 When creating the table or adding rows:
   Should we verify that all rows have the same number of columns?
   And what would be done if there are less, fill with nil?

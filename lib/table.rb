@@ -4,18 +4,25 @@ require "forwardable"
 class Table
   
   def initialize(array_of_rows = [], header_support = false)
-    @header_support = header_support
-    if header_support
-      @header_row = array_of_rows.shift.map(&:to_sym)
-    end
+    @table = array_of_rows.dup
     
-    @table = array_of_rows
+    @header_support = header_support
+    @header_row = @table.shift.map(&:to_sym) if header_support
   end
   
   attr_reader :header_row
   
   def rows
     @table
+  end
+  
+  def append_row(row)
+    @table << row.dup
+  end
+  alias :<< :append_row
+  
+  def insert_row_at(index, row)
+    @table.insert(index, row.dup)
   end
   
   def columns
@@ -28,26 +35,18 @@ class Table
   
   def append_column(column)
     new_columns = columns
+    new_columns << column.dup
     
-    if @header_support
-      @header_row << column[0]
-      new_columns << column[1..-1]
-    else
-      new_columns << column
-    end
+    @header_row << new_columns.last.shift if @header_support
       
     update_columns(new_columns)
   end
   
   def insert_column_at(index, column)
     new_columns = columns
+    new_columns.insert index, column.dup
     
-    if @header_support
-      @header_row.insert index, column[0]
-      new_columns.insert index, column[1..-1]
-    else
-      new_columns.insert index, column
-    end
+    @header_row.insert(index, new_columns[index].shift) if @header_support
     
     update_columns(new_columns)
   end
@@ -73,10 +72,7 @@ class Table
   end
   
   extend Forwardable
-  def_delegators :@table, :<<
-  
   def_delegator :@table, :count,     :rows_count
-  def_delegator :@table, :insert,    :insert_row_at
   def_delegator :@table, :delete_at, :delete_row_at
 
 private
