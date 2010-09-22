@@ -12,3 +12,37 @@ Do the transformations edit the table in place or return a new one?
   Or should there be both options?
 
 When header support is enabled, is the header considered row 0?
+
+
+
+
+===============
+
+- It should be possible to set column names, and then refer to the
+ columns by name anywhere that a column needs to be identified.
+
+- It should be possible to lookup a cell's contents by row (zero based
+ index) and column (index or column name).
+
+- It should be possible to do all of the following row manipulations:
+    * Run a transformation on a row which changes its content
+      based on the return value of a block.
+      (Similar to Enumerable#map)
+
+- It should be possible to do all of the following column manipulations:
+    * Retrieve an array (or Column object) consisting of
+      all the contents in that column
+        (need column name support)
+    * Rename a column, if header support is enabled
+    * Append a column to the right side of the table
+        (need column name support)
+    * Insert a column at any position in the table
+        (need column name support)
+    * Run a transformation on a column which changes its content
+      based on the return value of a block.
+
+- It should be possible to do the following filtering:
+    * Reduce a table to contain only the rows that pass a conditional
+      block (similar to Enumerable#select)
+    * Reduce a table to contain only the columns that pass a
+      conditional block (similar to Enumerable#select)
