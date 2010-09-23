@@ -212,6 +212,18 @@ class TableTest < Test::Unit::TestCase
     # end
   end
   
+  describe "map" do
+    setup do
+      @table = Table.new array_of_rows, true
+    end
+    
+    test "column" do
+      column = @table["age"].map { |cell| cell*2 }
+      @table.map_column("age") { |cell| cell*2 }
+      assert_equal column, @table["age"]
+    end
+  end
+  
   describe "select" do
     setup do
       @table = Table.new array_of_rows, true

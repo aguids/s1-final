@@ -85,6 +85,14 @@ class Table
     end
   end
   
+  def map_column(index_or_name, *args, &block)
+    new_columns = columns
+    column = new_columns[column_index(index_or_name)].map(*args, &block)
+    
+    new_columns[column_index(index_or_name)] = column
+    update_columns(new_columns)
+  end
+  
   def select_rows(*args, &block)
     @table = rows.select(*args, &block)
   end

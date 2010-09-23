@@ -6,12 +6,6 @@
       based on the return value of a block.
       (Similar to Enumerable#map)
 
-- It should be possible to do all of the following column manipulations:
-    * Run a transformation on a column which changes its content
-      based on the return value of a block.
-
 - It should be possible to do the following filtering:
-    * Reduce a table to contain only the rows that pass a conditional
-      block (similar to Enumerable#select)
     * Reduce a table to contain only the columns that pass a
       conditional block (similar to Enumerable#select)
