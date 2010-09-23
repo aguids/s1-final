@@ -1,3 +1,14 @@
+Greg,
+
+I don't know if this is the correct or intended mindset, but the 6 hours
+restriction put me on a "let's get this working" mode. There are a couple of
+decisions I regret now, but refactoring would have pushed me beyond the
+time limit, so I prefered to stick with it and get the scenario working.
+
+
+====================
+
+
 Missing requirements:
 
 - It should be possible to lookup a cell's contents by row (zero based
