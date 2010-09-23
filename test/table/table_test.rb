@@ -198,4 +198,28 @@ class TableTest < Test::Unit::TestCase
     end
   end
 
+  describe "cell manipulation" do
+    setup do
+      @table = Table.new array_of_rows, true
+    end
+    
+    test "lookup with two indexes" do
+      assert_equal array_of_rows_data[1][1], @table[1][1]
+    end
+    
+    # test "lookup with row index and column name" do
+    #   assert_equal array_of_rows_data[1][1], @table[1]["age"]
+    # end
+  end
+  
+  describe "select" do
+    setup do
+      @table = Table.new array_of_rows, true
+    end
+    
+    test "rows" do
+      @table.select_rows { |row| row[1] > 30 }
+      assert_equal 1, @table.rows_count
+    end
+  end
 end      

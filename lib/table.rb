@@ -12,6 +12,10 @@ class Table
   
   attr_accessor :column_names
   
+  extend Forwardable
+  def_delegator :@table, :count,     :rows_count
+  def_delegator :@table, :delete_at, :delete_row_at
+  
   def rows
     @table
   end
@@ -81,9 +85,9 @@ class Table
     end
   end
   
-  extend Forwardable
-  def_delegator :@table, :count,     :rows_count
-  def_delegator :@table, :delete_at, :delete_row_at
+  def select_rows(*args, &block)
+    @table = rows.select(*args, &block)
+  end
 
 private
   def update_columns(new_columns)
