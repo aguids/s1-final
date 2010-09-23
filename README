@@ -1,5 +1,8 @@
+Missing requirements:
+
 - It should be possible to lookup a cell's contents by row (zero based
  index) and column (index or column name).
+ (Missing the column name support for cell lookup)
 
 - It should be possible to do all of the following row manipulations:
     * Run a transformation on a row which changes its content
