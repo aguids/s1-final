@@ -12,7 +12,10 @@ exam_output_file = File.join(File.expand_path(File.dirname(__FILE__)),
 data = YAML::load(open(exam_data_file))
 table = Table.new data, true
 
-table.select_rows { |row| Date.strptime(row[0], "%m/%d/%y").month == 6 }
+table.select_rows do |row|
+  procedure_date = Date.strptime(row[0], "%m/%d/%y")
+  procedure_date.month == 6 && procedure_date.year == 2006
+end
 
 [1,2,3].each do |index|
   table.map_column(index) do |ammount|
