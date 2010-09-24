@@ -12,7 +12,7 @@ exam_output_file = File.join(File.expand_path(File.dirname(__FILE__)),
 data = YAML::load(open(exam_data_file))
 table = Table.new data, true
 
-table.select_rows { |row| row[0].match /^06/ }
+table.select_rows { |row| Date.strptime(row[0], "%m/%d/%y").month == 6 }
 
 [1,2,3].each do |index|
   table.map_column(index) do |ammount|
@@ -21,8 +21,8 @@ table.select_rows { |row| row[0].match /^06/ }
 end
 
 table.map_column(0) do |date|
-  month, date, year = date.split("/")
-  "20#{year}/#{month}/#{date}"
+  parsed_date = Date.strptime(date, "%m/%d/%y")
+  parsed_date.strftime("%Y/%m/%d")
 end
 
 table.delete_column_at "Count"
