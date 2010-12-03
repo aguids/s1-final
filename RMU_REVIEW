@@ -1,0 +1,43 @@
+==========
+DISCLAIMER
+==========
+
+I'm using TRANSPOSE to deal with anything that asks for columns. You said
+to submit it anyway and just add this disclaimer.
+
+==============
+END DISCLAIMER
+==============
+
+
+Greg,
+
+I don't know if this is the correct or intended mindset, but the 6 hours
+restriction put me on a "let's get this working" mode. There are a couple of
+decisions I regret now, but refactoring would have pushed me beyond the
+time limit, so I prefered to stick with it and get the scenario working.
+
+So the overall structure is that the table store the array of rows provided on
+creation and whenever there is the need to deal with columns, the row is
+transposed to an array of columns, and the column served.
+
+
+====================
+
+
+Missing requirements:
+
+- It should be possible to lookup a cell's contents by row (zero based
+ index) and column (index or column name).
+ (Missing the column name support for cell lookup as there is no Row object so
+   table[row_index]["column_name"] doesn't work but
+   table["column_name"] returns the whole column)
+
+- It should be possible to do all of the following row manipulations:
+    * Run a transformation on a row which changes its content
+      based on the return value of a block.
+      (Similar to Enumerable#map)
+
+- It should be possible to do the following filtering:
+    * Reduce a table to contain only the columns that pass a
+      conditional block (similar to Enumerable#select)
